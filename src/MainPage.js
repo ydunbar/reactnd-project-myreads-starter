@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Book from './Book';
 
 class MainPage extends Component {
@@ -80,8 +80,8 @@ class MainPage extends Component {
               </div>
             </div>
             <div className="open-search">
-              <link
-               to="/search">Add a book</Link>
+              <Link to="/search">Add a book
+               </Link>
             </div>
           </div>
           );
