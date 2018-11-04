@@ -12,6 +12,7 @@ const headers = {
   'Authorization': token
 }
 
+//You use res to send back the desired HTTP response?
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())

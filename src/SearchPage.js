@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+
 import Book from './Book';
+import BookShelf from './BookShelf';
 import * as BooksAPI from './BooksAPI';
 
-class SearchPage extends Component {
+export default class SearchPage extends Component {
 	state = {
 		query: '',
 		searchedBooks: []
 	}
-	updateQuery = (query) => {
+
+	updateQuery = query => {
 		this.setState({
 			query: query
 		})
 		this.updateSearchedBooks(query);
 	}
 
-	updateSearchedBooks = (query) => {
+	updateSearchedBooks = query => {
 		if (query) {
 			BooksAPI.search(query).then((searchedBooks) => {
 				if (searchedBooks.error) {
@@ -29,21 +32,18 @@ class SearchPage extends Component {
 		}
 	}
 
-
 	render () {
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
-
-		            <Link to="/" className="close-search">Close</Link>
-
-		            <div className="search-books-input-wrapper">
+					<Link to="/" className="close-search">Close</Link>
+					<div className="search-books-input-wrapper">
 
 		            	<input 
 		            	type="text" 
 		            	placeholder="Search by title or author"
 		            	value={this.state.query}
-		            	onChange={(event) => this.updateQuery(event.
+		            	onChange={e => this.updateQuery(e.
 		            		target.value)}
 		            	/>
 
@@ -56,18 +56,16 @@ class SearchPage extends Component {
 		        	<ol className="books-grid">
 		        	{
 		        		this.state.searchedBooks.map(searchedBook => {
-		        			let shelf ="none";
 		        			this.props.books.map(book => (
 		        				book.id === searchedBook.id ?
-		        				shelf = book.shelf :
+		        				searchedBook.shelf = book.shelf :
 		        				''
 		        				));
 		        			return (
 		        				<li key={searchedBook.id}>
 		        					<Book
-				        				book={searchedBook}
-				        				moveShelf={this.props.moveShelf}
-				        				currentShelf={shelf}
+				        			book={searchedBook}
+				        			changeShelf={this.props.changeShelf}
 		        					/>
 		        				</li>
 		        			);
@@ -79,5 +77,3 @@ class SearchPage extends Component {
           );
 	}
 }
-
-export default SearchPage;

@@ -1,30 +1,39 @@
-import React from 'react';
+//Followed tutorial by Maeva: https://www.youtube.com/watch?v=i6L2jLHV9j8&feature=youtu.be
+import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import SearchPage from './SearchPage';
-import MainPage from './MainPage';
-import Book from './Book';
-import * as BooksAPI from './BooksAPI';
-import './App.css';
 
-class BooksApp extends React.Component {
+import MainPage from './MainPage';
+import SearchPage from './SearchPage';
+import './App.css';
+import * as BooksAPI from './BooksAPI';
+
+
+//Main component, container for other components, manages state (class).
+export default class BooksApp extends Component {
   state = {
     books: []
   }
 
-  moveShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf);
-
+  //Called at componentDidMount, gets books from BooksAPI and sets state of book to equal books array from BooksAPI
+  updateBooks = () => {
     BooksAPI.getAll().then((books) => {
       this.setState({ books: books })
-    })
+    });
   }
 
+  //Wait until component is inserted to DOM to load books
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books: books })
-    })
-
+    this.updateBooks();
   }
+
+  //Passed to Book's onChange event, and MainPage and SearchPage jsx here
+  //Calls BookAPI, sets the book and shelf, and then resets state of books
+  changeShelf = (book, shelf) => {
+
+    BooksAPI.update(book, shelf);
+    this.updateBooks();
+  }
+
   render() {
     return (
       <div className="app">
@@ -32,18 +41,16 @@ class BooksApp extends React.Component {
       <Route exact path="/" render={() => (
         <MainPage 
         books={this.state.books} 
-        moveShelf={this.moveShelf} />
+        changeShelf={this.changeShelf} />
         )} />
 
       <Route path="/search" render={() => (
         <SearchPage
-        moveShelf={this.moveShelf}
-        books={this.state.books}
-        />
+        changeShelf={this.changeShelf}
+        books={this.state.books}/>
         )} />
+
       </div>
     )
   }
 }
-
-export default BooksApp
