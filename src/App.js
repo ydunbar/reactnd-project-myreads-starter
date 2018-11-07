@@ -10,6 +10,7 @@ import * as BooksAPI from './BooksAPI';
 
 //Main component, container for other components, manages state (class).
 export default class BooksApp extends Component {
+  //Initial state
   state = {
     books: []
   }
@@ -35,6 +36,7 @@ export default class BooksApp extends Component {
   }
 
   render() {
+    //Renders two routes/pages
     return (
       <div className="app">
 

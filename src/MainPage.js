@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Book from './Book';
 import BookShelf from './BookShelf';
 
-//Takes changeShelf, renders Bookshelves
+//Renders Bookshelves, sets books as filtered books of that shelf value 
 const MainPage = ({books, changeShelf}) => {
   return (
     <div className="list-books">
@@ -21,7 +20,7 @@ const MainPage = ({books, changeShelf}) => {
           title="Want to Read" books={books.filter(books => books.shelf === "wantToRead")} />
 
           <BookShelf changeShelf={changeShelf} 
-          title="Read" books={books.filter(books => books.shelf === "Read")} />
+          title="Read" books={books.filter(books => books.shelf === "read")} />
 
         </div>
       </div>

@@ -1,8 +1,7 @@
 import React from 'react';
 
-
-//Show book details, takes moveShelf prop from App, and takes book prop, and currentShelf prop (?)
-//book-shelf-changer is a menu that passes change event as argument
+//Shows book details
+//book-shelf-changer is a menu that passes change event as argument, calls changeShelf, and sets shelf as target
 const Book = ({book, changeShelf}) => {
 	return (
 		<div className="book">

@@ -1,7 +1,9 @@
 import React from 'react'
+
 import Book from "./Book";
 
-//No state, so can be stateless functional component
+//Takes title as shelf heading, filters book of books by it's shelf, 
+//then for each renders li with Book instance
 const BookShelf = ({changeShelf, title, books}) => {
 	return (
 		<div className="bookshelf">
@@ -9,7 +11,7 @@ const BookShelf = ({changeShelf, title, books}) => {
 			<div className="bookshelf-books">
 				<ol className="books-grid">
                     {
-	                    books.filter(book => book.shelf === book.shelf).map(book => 
+	                    books.filter(book => book.shelf).map(book => 
 	                    (
 	                    	<li key={book.id}>
 		                      	<Book 
