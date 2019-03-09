@@ -1,5 +1,5 @@
 {
-  "homepage": "http://ydunbar.github.io/reactnd-project-myreads-starter"
+  "homepage": "http://ydunbar.github.io/reactnd-project-myreads-starter",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
     "prop-types": "^15.6.1",
