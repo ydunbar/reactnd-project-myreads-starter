@@ -12,27 +12,26 @@ import * as BooksAPI from './BooksAPI';
 export default class BooksApp extends Component {
   //Initial state
   state = {
-    books: []
-  }
-
-  //Called at componentDidMount, gets books from BooksAPI and sets state of book to equal books array from BooksAPI
-  updateBooks = () => {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books: books })
-    });
+    books: [],
   }
 
   //Wait until component is inserted to DOM to load books
   componentDidMount() {
-    this.updateBooks();
+    BooksAPI.getAll().then((response) => {
+      this.setState({ books: response })
+    });
   }
 
   //Passed to Book's onChange event, and MainPage and SearchPage jsx here
   //Calls BookAPI, sets the book and shelf, and then resets state of books
   changeShelf = (book, shelf) => {
-
-    BooksAPI.update(book, shelf);
-    this.updateBooks();
+    BooksAPI.update(book, shelf)
+    .then(response => {
+      book.shelf = shelf;
+      this.setState((state) => ({
+        books: state.books.filter((b) => b.id !== book.id).concat([book])
+      }))
+    });
   }
 
   render() {

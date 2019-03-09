@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+//Debounce reference: https://blog.revathskumar.com/2016/02/reactjs-using-debounce-in-react-components.html
+import { debounce } from 'throttle-debounce';
 
 import Book from './Book';
 import * as BooksAPI from './BooksAPI';
 
 export default class SearchPage extends Component {
 	//Initial state
-	state = {
-		query: '',
-		searchedBooks: []
+	constructor(props) {
+		super(props);
+		this.state = {
+			query: '',
+			searchedBooks: []
+		}
+		this.callAjax = debounce(500, this.callAjax);
 	}
+
+	//Suggestion: DebounceInput in React helps to reduce the number of useless network calls to the server. 
+	callAjax() {
+
+	}
+
 	//Updates state of query, then call updateSearchedBooks to update searchBooks state
 	updateQuery = query => {
 		this.setState({
@@ -17,7 +29,7 @@ export default class SearchPage extends Component {
 		})
 		this.updateSearchedBooks(query);
 	}
-
+	//If there is a search query, calls API search and updates searchedBooks state
 	updateSearchedBooks = query => {
 		if (query) {
 			BooksAPI.search(query).then((searchedBooks) => {
@@ -33,6 +45,10 @@ export default class SearchPage extends Component {
 	}
 	//Renders search input. Sets value to query state, 
 	//onChange takes event to set value as event target and updates query state
+
+	//Suggestion: Display "Books not found" in case of search error. 
+	//Hint: You may need to use another state to separate the case from blank query.
+
 	render () {
 		return (
 			<div className="search-books">
@@ -48,6 +64,14 @@ export default class SearchPage extends Component {
 		            </div>
 		        </div>
 		        <div className="search-books-results">
+
+		        {this.state.error && (
+		        	<div className="search-error">
+		        	There was a problem with your search
+		        	</div>
+		        	)
+		    	}
+		    	
 		        	<ol className="books-grid">
 		        	{
 		        		this.state.searchedBooks.map(searchedBook => {
